@@ -584,23 +584,9 @@
       font-size: 15px;
       font-weight: 700;
       color: var(--white);
-      margin-bottom: 5px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-    }
-
-    .c-badge {
-      display: inline-block;
-      background: #262600;
-      border: 1px solid #4a4700;
-      color: #ccaa00;
-      font-size: 10px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      padding: 3px 9px;
-      border-radius: 10px;
     }
 
     .btn-wa {
@@ -700,7 +686,7 @@
 
     <!-- ─── Step 2: Guided Questions ─────────────────────────────── -->
     <div class="step-panel" id="step-2">
-      <button class="btn-back" onclick="goTo(1)">
+      <button class="btn-back" onclick="history.back()">
         <svg viewBox="0 0 16 16"><polyline points="10 12 6 8 10 4"/></svg>
         Back
       </button>
@@ -712,7 +698,7 @@
 
     <!-- ─── Step 3: Summary Confirmation ─────────────────────────── -->
     <div class="step-panel" id="step-3">
-      <button class="btn-back" onclick="goTo(2)">
+      <button class="btn-back" onclick="history.back()">
         <svg viewBox="0 0 16 16"><polyline points="10 12 6 8 10 4"/></svg>
         Back
       </button>
@@ -741,11 +727,15 @@
 
     /* ─ Consultants ────────────────────────────────────────────── */
     const CONSULTANTS = [
-      { name:'Thabo M.',  initials:'TM', phone:'27821000001', tags:['new-lines','upgrades'],      badge:'New Lines & Upgrades' },
-      { name:'Lerato K.', initials:'LK', phone:'27821000002', tags:['upgrades','general'],        badge:'Upgrades & Queries'   },
-      { name:'Sipho N.',  initials:'SN', phone:'27821000003', tags:['new-lines','fibre'],          badge:'New Lines & Fibre'    },
-      { name:'Ayanda D.', initials:'AD', phone:'27821000004', tags:['fibre','general'],            badge:'Fibre & Home LTE'     },
-      { name:'Priya S.',  initials:'PS', phone:'27821000005', tags:['general','new-lines','upgrades'],'badge':'General & New Lines' },
+      { name:'Asad',       initials:'AS', phone:'27832001798' },
+      { name:'Leroy',      initials:'LE', phone:'27832007566' },
+      { name:'Clynton',    initials:'CL', phone:'27832001753' },
+      { name:'Howard',     initials:'HO', phone:'27832004741' },
+      { name:'Jazz',       initials:'JA', phone:'27832225642' },
+      { name:'Salma',      initials:'SA', phone:'27832007463' },
+      { name:'Shihaam',    initials:'SH', phone:'27832122938' },
+      { name:'Sandisiwe',  initials:'SD', phone:'27832007960' },
+      { name:'Lahmeez',    initials:'LH', phone:'27832141687' },
     ];
 
     /* ─ Progress ────────────────────────────────────────────────── */
@@ -762,12 +752,31 @@
     }
 
     /* ─ Navigate ────────────────────────────────────────────────── */
-    function goTo(n) {
+    function _showStep(n) {
       document.querySelectorAll('.step-panel').forEach(p => p.classList.remove('active'));
       document.getElementById('step-' + n).classList.add('active');
       setProgress(n);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
+
+    function goTo(n) {
+      history.pushState({ step: n }, '');
+      _showStep(n);
+    }
+
+    /* seed history on first load */
+    history.replaceState({ step: 1 }, '');
+
+    window.addEventListener('popstate', e => {
+      const step = (e.state && e.state.step) || 1;
+      const modalOpen = document.getElementById('modal').classList.contains('open');
+      if (step === 4) {
+        _showModal();
+      } else {
+        if (modalOpen) _hideModal();
+        _showStep(step);
+      }
+    });
 
     /* ─ Step 1: select category ─────────────────────────────────── */
     function selectCategory(tile, cat, label) {
@@ -1029,19 +1038,12 @@
     }
 
     /* ─ Modal ───────────────────────────────────────────────────── */
-    function openModal() {
+    function _showModal() {
       const list = document.getElementById('consultantList');
       list.innerHTML = '';
       setProgress(4);
 
-      /* Sort: relevant consultants first */
-      const sorted = [...CONSULTANTS].sort((a, b) => {
-        const ra = a.tags.includes(st.category) ? 0 : 1;
-        const rb = b.tags.includes(st.category) ? 0 : 1;
-        return ra - rb;
-      });
-
-      sorted.forEach(c => {
+      CONSULTANTS.forEach(c => {
         const waMsg = buildWAMsg(c);
         const waUrl = `https://wa.me/${c.phone}?text=${waMsg}`;
         const card  = document.createElement('div');
@@ -1050,7 +1052,6 @@
           <div class="avatar">${c.initials}</div>
           <div class="consultant-info">
             <div class="c-name">${escHtml(c.name)}</div>
-            <span class="c-badge">${escHtml(c.badge)}</span>
           </div>
           <a class="btn-wa" href="${waUrl}" target="_blank" rel="noopener noreferrer">
             <span>💬</span> Chat
@@ -1062,18 +1063,30 @@
       document.body.style.overflow = 'hidden';
     }
 
-    function closeModal() {
+    function _hideModal() {
       document.getElementById('modal').classList.remove('open');
       document.body.style.overflow = '';
       setProgress(3);
     }
 
+    function openModal() {
+      history.pushState({ step: 4 }, '');
+      _showModal();
+    }
+
+    function closeModal() {
+      /* always navigate via history so the back-button stack stays clean */
+      history.back();
+    }
+
     function onOverlayClick(e) {
-      if (e.target === document.getElementById('modal')) closeModal();
+      if (e.target === document.getElementById('modal')) history.back();
     }
 
     document.addEventListener('keydown', e => {
-      if (e.key === 'Escape') closeModal();
+      if (e.key === 'Escape' && document.getElementById('modal').classList.contains('open')) {
+        history.back();
+      }
     });
   </script>
 </body>
