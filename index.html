@@ -13,15 +13,15 @@
 
     /* ─── Tokens ─────────────────────────────────────────────────── */
     :root {
-      --yellow:   #FFCC00;
-      --dark:     #1A1A1A;
-      --panel:    #212121;
-      --surface:  #2a2a2a;
-      --border:   #363636;
-      --muted:    #888;
-      --white:    #FFFFFF;
-      --error:    #E53E3E;
-      --green:    #25D366;
+      --yellow:  #FFCC00;
+      --dark:    #1A1A1A;
+      --panel:   #212121;
+      --surface: #2a2a2a;
+      --border:  #363636;
+      --muted:   #888;
+      --white:   #FFFFFF;
+      --error:   #E53E3E;
+      --green:   #25D366;
     }
 
     /* ─── Base ───────────────────────────────────────────────────── */
@@ -33,7 +33,6 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    /* ─── Noise texture for dark sections ────────────────────────── */
     body::before {
       content: '';
       position: fixed;
@@ -56,7 +55,6 @@
       z-index: 1;
     }
 
-    /* noise overlay on hero */
     .hero::before {
       content: '';
       position: absolute;
@@ -75,10 +73,7 @@
       position: relative;
     }
 
-    .hero-right {
-      text-align: right;
-      position: relative;
-    }
+    .hero-right { text-align: right; position: relative; }
 
     .hero-tagline {
       font-size: 13px;
@@ -99,7 +94,7 @@
       letter-spacing: 0.5px;
     }
 
-    /* ─── Main wrapper ───────────────────────────────────────────── */
+    /* ─── Main ───────────────────────────────────────────────────── */
     .main {
       max-width: 600px;
       margin: 0 auto;
@@ -134,11 +129,7 @@
       color: var(--muted);
     }
 
-    .progress-track {
-      display: flex;
-      align-items: center;
-      gap: 0;
-    }
+    .progress-track { display: flex; align-items: center; }
 
     .step-pip {
       width: 8px;
@@ -149,15 +140,8 @@
       flex-shrink: 0;
     }
 
-    .step-pip.active {
-      width: 28px;
-      background: var(--yellow);
-    }
-
-    .step-pip.done {
-      background: var(--yellow);
-      opacity: 0.45;
-    }
+    .step-pip.active { width: 28px; background: var(--yellow); }
+    .step-pip.done   { background: var(--yellow); opacity: 0.45; }
 
     .step-connector {
       flex: 1;
@@ -166,17 +150,10 @@
       transition: background 0.35s;
     }
 
-    .step-connector.done {
-      background: var(--yellow);
-      opacity: 0.35;
-    }
+    .step-connector.done { background: var(--yellow); opacity: 0.35; }
 
     /* ─── Step panels ────────────────────────────────────────────── */
-    .step-panel {
-      display: none;
-      animation: fadeUp 0.25s ease;
-    }
-
+    .step-panel { display: none; animation: fadeUp 0.25s ease; }
     .step-panel.active { display: block; }
 
     @keyframes fadeUp {
@@ -184,7 +161,7 @@
       to   { opacity: 1; transform: translateY(0); }
     }
 
-    /* ─── Step headings ──────────────────────────────────────────── */
+    /* ─── Headings ───────────────────────────────────────────────── */
     .step-heading {
       font-family: 'Bebas Neue', sans-serif;
       font-size: 38px;
@@ -198,6 +175,23 @@
       font-size: 14px;
       color: var(--muted);
       margin-bottom: 28px;
+    }
+
+    /* ─── Mode badge (Business / Personal) ───────────────────────── */
+    .mode-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+      color: var(--muted);
+      padding: 5px 12px;
+      border-radius: 20px;
+      margin-bottom: 20px;
     }
 
     /* ─── Back button ────────────────────────────────────────────── */
@@ -232,7 +226,7 @@
       stroke-linejoin: round;
     }
 
-    /* ─── Category tiles ─────────────────────────────────────────── */
+    /* ─── Category / mode tiles ──────────────────────────────────── */
     .tile-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -256,20 +250,11 @@
       user-select: none;
     }
 
-    .category-tile:hover {
-      border-color: var(--yellow);
-      background: #252500;
-      transform: translateY(-3px);
-    }
-
+    .category-tile:hover  { border-color: var(--yellow); background: #252500; transform: translateY(-3px); }
     .category-tile:active { transform: translateY(0); }
+    .category-tile.selected { border-color: var(--yellow); background: #252500; }
 
-    .category-tile.selected {
-      border-color: var(--yellow);
-      background: #252500;
-    }
-
-    .tile-icon { font-size: 34px; line-height: 1; }
+    .tile-icon  { font-size: 34px; line-height: 1; }
 
     .tile-label {
       font-size: 14px;
@@ -278,7 +263,34 @@
       line-height: 1.25;
     }
 
-    /* ─── Form elements ──────────────────────────────────────────── */
+    /* mode tiles are taller */
+    .mode-tile { min-height: 160px; }
+
+    /* ─── Review link ────────────────────────────────────────────── */
+    .btn-review-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      margin-top: 16px;
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px;
+      color: var(--muted);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      min-height: 52px;
+      transition: border-color 0.2s, color 0.2s;
+      letter-spacing: 0.3px;
+    }
+
+    .btn-review-link:hover { border-color: var(--yellow); color: var(--yellow); }
+
+    /* ─── Forms ──────────────────────────────────────────────────── */
     .form-group { margin-bottom: 22px; }
 
     .form-label {
@@ -308,10 +320,7 @@
       -webkit-appearance: none;
     }
 
-    .form-textarea {
-      min-height: 128px;
-      resize: vertical;
-    }
+    .form-textarea { min-height: 128px; resize: vertical; }
 
     .form-input::placeholder,
     .form-textarea::placeholder { color: #555; }
@@ -335,12 +344,21 @@
 
     .err-msg.visible { display: block; }
 
-    /* ─── Radio group ────────────────────────────────────────────── */
-    .radio-group {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
+    /* character counter */
+    .char-counter {
+      text-align: right;
+      font-size: 11px;
+      font-weight: 600;
+      color: #555;
+      margin-top: 6px;
+      transition: color 0.2s;
     }
+
+    .char-counter.warn { color: #cc9900; }
+    .char-counter.full { color: var(--error); }
+
+    /* ─── Radio group ────────────────────────────────────────────── */
+    .radio-group { display: flex; gap: 10px; flex-wrap: wrap; }
 
     .radio-opt {
       flex: 1;
@@ -358,12 +376,8 @@
       user-select: none;
     }
 
-    .radio-opt:hover { border-color: var(--yellow); }
-
-    .radio-opt.selected {
-      border-color: var(--yellow);
-      background: #252500;
-    }
+    .radio-opt:hover  { border-color: var(--yellow); }
+    .radio-opt.selected { border-color: var(--yellow); background: #252500; }
 
     .radio-opt input[type="radio"] {
       width: 18px;
@@ -373,22 +387,13 @@
       flex-shrink: 0;
     }
 
-    .radio-opt span {
-      font-size: 15px;
-      font-weight: 500;
-    }
+    .radio-opt span { font-size: 15px; font-weight: 500; }
 
     /* ─── Conditional field ──────────────────────────────────────── */
-    .cond-field {
-      display: none;
-      margin-top: 14px;
-      padding-top: 14px;
-      border-top: 1px solid var(--border);
-    }
-
+    .cond-field { display: none; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); }
     .cond-field.visible { display: block; }
 
-    /* ─── Primary button ─────────────────────────────────────────── */
+    /* ─── Buttons ────────────────────────────────────────────────── */
     .btn-primary {
       width: 100%;
       background: var(--yellow);
@@ -404,13 +409,11 @@
       margin-top: 10px;
       transition: background 0.2s, transform 0.15s;
       display: block;
+      text-align: center;
+      text-decoration: none;
     }
 
-    .btn-primary:hover {
-      background: #e6b800;
-      transform: translateY(-2px);
-    }
-
+    .btn-primary:hover  { background: #e6b800; transform: translateY(-2px); }
     .btn-primary:active { transform: translateY(0); }
 
     .btn-primary.pulse {
@@ -474,7 +477,7 @@
       line-height: 1.4;
     }
 
-    /* ─── Modal overlay ──────────────────────────────────────────── */
+    /* ─── Modal overlay (shared) ─────────────────────────────────── */
     .modal-overlay {
       position: fixed;
       inset: 0;
@@ -544,11 +547,7 @@
     }
 
     /* ─── Consultant cards ───────────────────────────────────────── */
-    .consultant-list {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
+    .consultant-list { display: flex; flex-direction: column; gap: 10px; }
 
     .consultant-card {
       background: var(--surface);
@@ -612,26 +611,48 @@
 
     .btn-wa:hover { background: #1ea855; }
 
+    /* ─── Star rating ────────────────────────────────────────────── */
+    .star-row {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 4px;
+    }
+
+    .star {
+      font-size: 38px;
+      color: #3a3a3a;
+      cursor: pointer;
+      transition: color 0.12s, transform 0.1s;
+      line-height: 1;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    .star.lit   { color: var(--yellow); }
+    .star.hover { color: var(--yellow); transform: scale(1.15); }
+
     /* ─── Responsive ─────────────────────────────────────────────── */
     @media (max-width: 480px) {
-      .hero-logo  { font-size: 44px; }
+      .hero-logo    { font-size: 44px; }
       .hero-tagline { font-size: 12px; max-width: 175px; }
       .step-heading { font-size: 30px; }
-      .tile-grid { gap: 10px; }
+      .tile-grid    { gap: 10px; }
       .category-tile { padding: 22px 12px 18px; min-height: 120px; }
-      .tile-icon { font-size: 28px; }
-      .tile-label { font-size: 13px; }
-      .summary-row { grid-template-columns: 1fr; gap: 3px; }
-      .s-label { padding-top: 0; }
-      .modal-panel { padding: 24px 18px; }
+      .mode-tile     { min-height: 140px; }
+      .tile-icon     { font-size: 28px; }
+      .tile-label    { font-size: 13px; }
+      .summary-row   { grid-template-columns: 1fr; gap: 3px; }
+      .s-label       { padding-top: 0; }
+      .modal-panel   { padding: 24px 18px; }
       .consultant-card { flex-wrap: wrap; }
-      .btn-wa { width: 100%; justify-content: center; }
+      .btn-wa        { width: 100%; justify-content: center; }
+      .star          { font-size: 32px; }
     }
   </style>
 </head>
 <body>
 
-  <!-- ═══ HERO ═══════════════════════════════════════════════════════ -->
+  <!-- ═══ HERO ════════════════════════════════════════════════════ -->
   <header class="hero">
     <div class="hero-logo">MTN</div>
     <div class="hero-right">
@@ -640,63 +661,68 @@
     </div>
   </header>
 
-  <!-- ═══ MAIN ════════════════════════════════════════════════════════ -->
+  <!-- ═══ MAIN ═════════════════════════════════════════════════════ -->
   <main class="main">
 
-    <!-- Progress indicator -->
-    <div class="progress-wrap">
+    <!-- Progress indicator (hidden on home) -->
+    <div class="progress-wrap" id="progressWrap" style="display:none">
       <div class="progress-meta">
         <span class="progress-label">Your journey</span>
         <span class="progress-frac" id="progressFrac">Step 1 of 4</span>
       </div>
-      <div class="progress-track" id="progressTrack">
+      <div class="progress-track">
         <div class="step-pip active" id="pip-1"></div>
-        <div class="step-connector" id="con-1"></div>
-        <div class="step-pip" id="pip-2"></div>
-        <div class="step-connector" id="con-2"></div>
-        <div class="step-pip" id="pip-3"></div>
-        <div class="step-connector" id="con-3"></div>
-        <div class="step-pip" id="pip-4"></div>
+        <div class="step-connector"  id="con-1"></div>
+        <div class="step-pip"        id="pip-2"></div>
+        <div class="step-connector"  id="con-2"></div>
+        <div class="step-pip"        id="pip-3"></div>
+        <div class="step-connector"  id="con-3"></div>
+        <div class="step-pip"        id="pip-4"></div>
       </div>
     </div>
 
-    <!-- ─── Step 1: Category Select ──────────────────────────────── -->
-    <div class="step-panel active" id="step-1">
-      <h1 class="step-heading">What brings you in?</h1>
-      <p class="step-sub">Select a category to get started</p>
+    <!-- ─── Home: Personal / Business ──────────────────────────── -->
+    <div class="step-panel active" id="home">
+      <h1 class="step-heading">Welcome</h1>
+      <p class="step-sub">How would you like to proceed today?</p>
       <div class="tile-grid">
-        <div class="category-tile" data-cat="new-lines" onclick="selectCategory(this,'new-lines','📱 New Lines &amp; Contracts')">
-          <div class="tile-icon">📱</div>
-          <div class="tile-label">New Lines &amp; Contracts</div>
+        <div class="category-tile mode-tile" onclick="selectMode(this,'personal')">
+          <div class="tile-icon">👤</div>
+          <div class="tile-label">Personal</div>
         </div>
-        <div class="category-tile" data-cat="upgrades" onclick="selectCategory(this,'upgrades','🔄 Upgrades')">
-          <div class="tile-icon">🔄</div>
-          <div class="tile-label">Upgrades</div>
-        </div>
-        <div class="category-tile" data-cat="general" onclick="selectCategory(this,'general','❓ General Queries')">
-          <div class="tile-icon">❓</div>
-          <div class="tile-label">General Queries</div>
-        </div>
-        <div class="category-tile" data-cat="fibre" onclick="selectCategory(this,'fibre','🏠 Fibre &amp; Home LTE')">
-          <div class="tile-icon">🏠</div>
-          <div class="tile-label">Fibre &amp; Home LTE</div>
+        <div class="category-tile mode-tile" onclick="selectMode(this,'business')">
+          <div class="tile-icon">🏢</div>
+          <div class="tile-label">Business / SME</div>
         </div>
       </div>
+      <button class="btn-review-link" onclick="openReview()">★&nbsp; Leave a review</button>
     </div>
 
-    <!-- ─── Step 2: Guided Questions ─────────────────────────────── -->
+    <!-- ─── Step 1: Category Select ─────────────────────────────── -->
+    <div class="step-panel" id="step-1">
+      <button class="btn-back" onclick="history.back()">
+        <svg viewBox="0 0 16 16"><polyline points="10 12 6 8 10 4"/></svg>
+        Back
+      </button>
+      <div id="modeBadge" class="mode-badge"></div>
+      <h1 class="step-heading" id="s1heading">What brings you in?</h1>
+      <p class="step-sub"  id="s1sub">Select a category to get started</p>
+      <div class="tile-grid" id="catContent"></div>
+    </div>
+
+    <!-- ─── Step 2: Guided Questions ────────────────────────────── -->
     <div class="step-panel" id="step-2">
       <button class="btn-back" onclick="history.back()">
         <svg viewBox="0 0 16 16"><polyline points="10 12 6 8 10 4"/></svg>
         Back
       </button>
       <h1 class="step-heading" id="s2heading">Tell Us More</h1>
-      <p class="step-sub" id="s2sub">Help us understand what you need</p>
+      <p class="step-sub"  id="s2sub">Help us understand what you need</p>
       <div id="formContent"></div>
       <button class="btn-primary" onclick="advance()">Continue →</button>
     </div>
 
-    <!-- ─── Step 3: Summary Confirmation ─────────────────────────── -->
+    <!-- ─── Step 3: Summary Confirmation ────────────────────────── -->
     <div class="step-panel" id="step-3">
       <button class="btn-back" onclick="history.back()">
         <svg viewBox="0 0 16 16"><polyline points="10 12 6 8 10 4"/></svg>
@@ -708,22 +734,60 @@
       <button class="btn-primary pulse" onclick="openModal()">Talk to a Consultant →</button>
     </div>
 
-  </main><!-- /.main -->
+  </main>
 
-  <!-- ═══ MODAL: Consultant Selection ════════════════════════════════ -->
-  <div class="modal-overlay" id="modal" onclick="onOverlayClick(event)">
-    <div class="modal-panel" id="modalPanel" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <!-- ═══ CONSULTANT MODAL ══════════════════════════════════════════ -->
+  <div class="modal-overlay" id="consultantModal" onclick="onConsultantOverlayClick(event)">
+    <div class="modal-panel" role="dialog" aria-modal="true" aria-label="Choose Your Consultant">
       <button class="modal-close" onclick="closeModal()" aria-label="Close">×</button>
-      <h2 class="modal-title" id="modalTitle">Choose Your Consultant</h2>
+      <h2 class="modal-title">Choose Your Consultant</h2>
       <p class="modal-sub">All conversations happen on WhatsApp — choose who you'd like to speak with</p>
       <div class="consultant-list" id="consultantList"></div>
     </div>
   </div>
 
-  <!-- ═══ JAVASCRIPT ══════════════════════════════════════════════════ -->
+  <!-- ═══ REVIEW MODAL ══════════════════════════════════════════════ -->
+  <div class="modal-overlay" id="reviewModal" onclick="onReviewOverlayClick(event)">
+    <div class="modal-panel" role="dialog" aria-modal="true" aria-label="Leave a Review">
+      <button class="modal-close" onclick="closeReview()" aria-label="Close">×</button>
+      <h2 class="modal-title">Leave a Review</h2>
+      <p class="modal-sub">How was your experience with us at MTN Century Boulevard?</p>
+
+      <div class="form-group">
+        <label class="form-label">Your rating</label>
+        <div class="star-row" id="starRow">
+          <span class="star" data-val="1">★</span>
+          <span class="star" data-val="2">★</span>
+          <span class="star" data-val="3">★</span>
+          <span class="star" data-val="4">★</span>
+          <span class="star" data-val="5">★</span>
+        </div>
+        <div class="err-msg" id="e-rating">Please select a rating.</div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="reviewName">Your name</label>
+        <input class="form-input" type="text" id="reviewName" placeholder="How should we address you?">
+        <div class="err-msg" id="e-reviewName">Please enter your name.</div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="reviewText">Your review</label>
+        <textarea class="form-textarea" id="reviewText" maxlength="300"
+          placeholder="Tell us about your experience…"></textarea>
+        <div class="char-counter" id="reviewCounter">0 / 300</div>
+        <div class="err-msg" id="e-reviewText">Please write a short review.</div>
+      </div>
+
+      <button class="btn-primary" onclick="submitReview()">Submit via WhatsApp →</button>
+    </div>
+  </div>
+
+  <!-- ═══ JAVASCRIPT ═════════════════════════════════════════════════ -->
   <script>
     /* ─ State ──────────────────────────────────────────────────── */
-    const st = { category: null, label: null, data: {} };
+    const st = { mode: null, category: null, label: null, data: {} };
+    let reviewRating = 0;
 
     /* ─ Consultants ────────────────────────────────────────────── */
     const CONSULTANTS = [
@@ -752,35 +816,93 @@
     }
 
     /* ─ Navigate ────────────────────────────────────────────────── */
-    function _showStep(n) {
+    function _showStep(target) {
       document.querySelectorAll('.step-panel').forEach(p => p.classList.remove('active'));
-      document.getElementById('step-' + n).classList.add('active');
-      setProgress(n);
+      const el = document.getElementById(target === 'home' ? 'home' : 'step-' + target);
+      if (el) el.classList.add('active');
+
+      const pw = document.getElementById('progressWrap');
+      if (target === 'home') {
+        pw.style.display = 'none';
+      } else {
+        pw.style.display = 'block';
+        setProgress(target);
+      }
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    function goTo(n) {
-      history.pushState({ step: n }, '');
-      _showStep(n);
+    function goTo(target) {
+      history.pushState({ step: target }, '');
+      _showStep(target);
     }
 
-    /* seed history on first load */
-    history.replaceState({ step: 1 }, '');
+    /* ─ History init + popstate ─────────────────────────────────── */
+    history.replaceState({ step: 'home' }, '');
 
     window.addEventListener('popstate', e => {
-      const step = (e.state && e.state.step) || 1;
-      const modalOpen = document.getElementById('modal').classList.contains('open');
+      const step = (e.state && e.state.step !== undefined) ? e.state.step : 'home';
+      const consultantOpen = document.getElementById('consultantModal').classList.contains('open');
+      const reviewOpen     = document.getElementById('reviewModal').classList.contains('open');
+
       if (step === 4) {
         _showModal();
+      } else if (step === 'review') {
+        _showReview();
       } else {
-        if (modalOpen) _hideModal();
+        if (consultantOpen) _hideModal();
+        if (reviewOpen)     _hideReview();
         _showStep(step);
       }
     });
 
-    /* ─ Step 1: select category ─────────────────────────────────── */
+    /* ─ Home: select mode ───────────────────────────────────────── */
+    function selectMode(tile, mode) {
+      document.querySelectorAll('#home .category-tile').forEach(t => t.classList.remove('selected'));
+      tile.classList.add('selected');
+      st.mode     = mode;
+      st.category = null;
+      st.data     = {};
+      setTimeout(() => { buildCategoryStep(mode); goTo(1); }, 160);
+    }
+
+    /* ─ Step 1: build category tiles ────────────────────────────── */
+    function buildCategoryStep(mode) {
+      const isBiz = mode === 'business';
+      document.getElementById('modeBadge').textContent = isBiz ? '🏢 Business / SME' : '👤 Personal';
+      document.getElementById('s1heading').textContent = isBiz ? 'Business Categories' : 'What brings you in?';
+      document.getElementById('s1sub').textContent     = isBiz
+        ? 'Select the service area for your business'
+        : 'Select a category to get started';
+
+      const cats = isBiz ? [
+        { cat:'new-lines', icon:'📱', label:'New Business Lines'  },
+        { cat:'upgrades',  icon:'🔄', label:'Business Upgrades'   },
+        { cat:'general',   icon:'❓', label:'Business Queries'    },
+        { cat:'fibre',     icon:'🏢', label:'Office Fibre & LTE'  },
+      ] : [
+        { cat:'new-lines', icon:'📱', label:'New Lines & Contracts' },
+        { cat:'upgrades',  icon:'🔄', label:'Upgrades'              },
+        { cat:'general',   icon:'❓', label:'General Queries'        },
+        { cat:'fibre',     icon:'🏠', label:'Fibre & Home LTE'       },
+      ];
+
+      const wrap = document.getElementById('catContent');
+      wrap.innerHTML = cats.map(c =>
+        `<div class="category-tile" data-cat="${c.cat}">
+           <div class="tile-icon">${c.icon}</div>
+           <div class="tile-label">${c.label}</div>
+         </div>`
+      ).join('');
+
+      wrap.querySelectorAll('.category-tile').forEach(tile => {
+        const c = cats.find(x => x.cat === tile.dataset.cat);
+        tile.addEventListener('click', () => selectCategory(tile, c.cat, c.icon + ' ' + c.label));
+      });
+    }
+
+    /* ─ Step 2: select category ─────────────────────────────────── */
     function selectCategory(tile, cat, label) {
-      document.querySelectorAll('.category-tile').forEach(t => t.classList.remove('selected'));
+      document.querySelectorAll('#catContent .category-tile').forEach(t => t.classList.remove('selected'));
       tile.classList.add('selected');
       st.category = cat;
       st.label    = label;
@@ -788,14 +910,15 @@
       setTimeout(() => { buildForm(cat); goTo(2); }, 160);
     }
 
-    /* ─ Step 2: build form per category ─────────────────────────── */
+    /* ─ Build form per category ──────────────────────────────────── */
     function buildForm(cat) {
-      const wrap = document.getElementById('formContent');
-      const h    = document.getElementById('s2heading');
-      const sub  = document.getElementById('s2sub');
+      const isBiz = st.mode === 'business';
+      const wrap  = document.getElementById('formContent');
+      const h     = document.getElementById('s2heading');
+      const sub   = document.getElementById('s2sub');
 
       if (cat === 'new-lines') {
-        h.textContent   = 'New Lines & Contracts';
+        h.textContent   = isBiz ? 'New Business Lines' : 'New Lines & Contracts';
         sub.textContent = 'Tell us what you\'re looking for';
         wrap.innerHTML = `
           <div class="form-group">
@@ -826,7 +949,7 @@
           </div>`;
 
       } else if (cat === 'upgrades') {
-        h.textContent   = 'Upgrades';
+        h.textContent   = isBiz ? 'Business Upgrades' : 'Upgrades';
         sub.textContent = 'Let us check your upgrade options';
         wrap.innerHTML = `
           <div class="form-group">
@@ -835,24 +958,37 @@
             <div class="err-msg" id="e-mtnNumber">Please enter your MTN number.</div>
           </div>
           <div class="form-group">
-            <label class="form-label" for="idNumber">ID number <span style="font-weight:400;text-transform:none;letter-spacing:0">(for eligibility check)</span></label>
-            <input class="form-input" type="text" id="idNumber" inputmode="numeric" placeholder="13-digit South African ID">
-            <div class="err-msg" id="e-idNumber">Please enter your ID number.</div>
+            <label class="form-label" for="contactNumber">Best contact number</label>
+            <input class="form-input" type="tel" id="contactNumber" placeholder="e.g. 0711234567">
+            <div class="err-msg" id="e-contactNumber">Please enter a contact number.</div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="email">Email address</label>
+            <input class="form-input" type="email" id="email" placeholder="you@example.com">
+            <div class="err-msg" id="e-email">Please enter a valid email address.</div>
           </div>`;
 
       } else if (cat === 'general') {
-        h.textContent   = 'General Queries';
+        h.textContent   = isBiz ? 'Business Queries' : 'General Queries';
         sub.textContent = 'Describe what you need help with';
         wrap.innerHTML = `
           <div class="form-group">
             <label class="form-label" for="issue">Describe your issue</label>
-            <textarea class="form-textarea" id="issue" placeholder="Include your number or order number if relevant…"></textarea>
+            <textarea class="form-textarea" id="issue" maxlength="500"
+              placeholder="Include your number or order number if relevant…"></textarea>
+            <div class="char-counter" id="issueCounter">0 / 500</div>
             <div class="err-msg" id="e-issue">Please describe your issue.</div>
           </div>`;
+        document.getElementById('issue').addEventListener('input', function () {
+          const len  = this.value.length;
+          const ctr  = document.getElementById('issueCounter');
+          ctr.textContent = `${len} / 500`;
+          ctr.className   = 'char-counter' + (len >= 500 ? ' full' : len >= 400 ? ' warn' : '');
+        });
 
       } else if (cat === 'fibre') {
-        h.textContent   = 'Fibre & Home LTE';
-        sub.textContent = 'Let\'s find the best home internet option for you';
+        h.textContent   = isBiz ? 'Office Fibre & LTE' : 'Fibre & Home LTE';
+        sub.textContent = 'Let\'s find the best internet option for you';
         wrap.innerHTML = `
           <div class="form-group">
             <label class="form-label" for="address">Full physical address</label>
@@ -875,7 +1011,6 @@
           </div>`;
       }
 
-      /* clear errors on input */
       wrap.querySelectorAll('.form-input, .form-textarea').forEach(el => {
         el.addEventListener('input', () => clearFieldError(el.id));
       });
@@ -883,13 +1018,11 @@
 
     /* ─ Radio selection ─────────────────────────────────────────── */
     function pickRadio(lbl, field, value) {
-      const group = lbl.closest('.radio-group');
-      group.querySelectorAll('.radio-opt').forEach(o => o.classList.remove('selected'));
+      lbl.closest('.radio-group').querySelectorAll('.radio-opt').forEach(o => o.classList.remove('selected'));
       lbl.classList.add('selected');
       lbl.querySelector('input').checked = true;
       st.data[field] = value;
 
-      /* toggle conditional phone brand field */
       if (field === 'contractType') {
         const cond = document.getElementById('cond-phoneBrand');
         if (cond) {
@@ -904,7 +1037,7 @@
           }
         }
       }
-      clearFieldError(field);   /* clear radio error once picked */
+      clearFieldError(field);
     }
 
     /* ─ Validation helpers ──────────────────────────────────────── */
@@ -922,49 +1055,51 @@
       if (em) em.classList.add('visible');
     }
 
-    function radioError(name) {
-      const em = document.getElementById('e-' + name);
-      if (em) em.classList.add('visible');
-    }
-
-    function reqText(id, key) {
+    function reqText(id) {
       const el = document.getElementById(id);
       if (!el) return true;
       const v = el.value.trim();
       if (!v) { fieldError(id); return false; }
-      st.data[key || id] = v;
+      st.data[id] = v;
+      return true;
+    }
+
+    function reqEmail(id) {
+      const el = document.getElementById(id);
+      if (!el) return true;
+      const v = el.value.trim();
+      const ok = v && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+      if (!ok) { fieldError(id); return false; }
+      st.data[id] = v;
       return true;
     }
 
     function reqRadio(name) {
       const checked = document.querySelector(`input[name="${name}"]:checked`);
-      if (!checked) { radioError(name); return false; }
+      const em = document.getElementById('e-' + name);
+      if (!checked) { if (em) em.classList.add('visible'); return false; }
       st.data[name] = checked.value;
       return true;
     }
 
-    /* ─ Step 2 → Step 3 ────────────────────────────────────────── */
+    /* ─ Step 2 → 3 ──────────────────────────────────────────────── */
     function advance() {
       const cat = st.category;
       let ok = true;
 
       if (cat === 'new-lines') {
         ok = reqRadio('contractType') && ok;
-        if (st.data.contractType === 'Device contract') {
-          ok = reqText('phoneBrand') && ok;
-        }
+        if (st.data.contractType === 'Device contract') ok = reqText('phoneBrand') && ok;
         ok = reqText('budget') && ok;
-
       } else if (cat === 'upgrades') {
-        ok = reqText('mtnNumber') && ok;
-        ok = reqText('idNumber')  && ok;
-
+        ok = reqText('mtnNumber')     && ok;
+        ok = reqText('contactNumber') && ok;
+        ok = reqEmail('email')        && ok;
       } else if (cat === 'general') {
         ok = reqText('issue') && ok;
-
       } else if (cat === 'fibre') {
-        ok = reqText('address')      && ok;
-        ok = reqRadio('serviceType') && ok;
+        ok = reqText('address')       && ok;
+        ok = reqRadio('serviceType')  && ok;
       }
 
       if (!ok) return;
@@ -972,7 +1107,7 @@
       goTo(3);
     }
 
-    /* ─ Step 3: build summary ───────────────────────────────────── */
+    /* ─ Summary ─────────────────────────────────────────────────── */
     function buildSummary() {
       const cat  = st.category;
       const d    = st.data;
@@ -981,75 +1116,65 @@
       const row = (lbl, val) =>
         val ? `<div class="summary-row"><div class="s-label">${lbl}</div><div class="s-value">${escHtml(val)}</div></div>` : '';
 
-      let html = `<div class="summary-badge">${st.label}</div>`;
+      let html = `<div class="summary-badge">${escHtml(st.label)}</div>`;
 
       if (cat === 'new-lines') {
         html += row('Contract type', d.contractType);
         if (d.contractType === 'Device contract') html += row('Phone brand', d.phoneBrand);
         html += row('Monthly budget', d.budget);
       } else if (cat === 'upgrades') {
-        html += row('MTN number', d.mtnNumber);
-        html += row('ID number', maskId(d.idNumber));
+        html += row('MTN number',     d.mtnNumber);
+        html += row('Contact number', d.contactNumber);
+        html += row('Email',          d.email);
       } else if (cat === 'general') {
         html += row('Your query', d.issue);
       } else if (cat === 'fibre') {
-        html += row('Address', d.address);
+        html += row('Address',      d.address);
         html += row('Service type', d.serviceType);
       }
 
       wrap.innerHTML = html;
     }
 
-    /* ─ Utility ─────────────────────────────────────────────────── */
-    function escHtml(str) {
-      return String(str)
-        .replace(/&/g,'&amp;').replace(/</g,'&lt;')
-        .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-    }
-
-    function maskId(id) {
-      if (!id) return '';
-      return '●●●●●●●' + id.slice(-6);
-    }
-
     /* ─ WhatsApp message builder ────────────────────────────────── */
     function buildWAMsg(c) {
-      const cat = st.category;
-      const d   = st.data;
-      let msg   = '';
+      const cat   = st.category;
+      const d     = st.data;
+      const isBiz = st.mode === 'business';
+      const biz   = isBiz ? 'business ' : '';
+      let msg     = '';
 
       if (cat === 'new-lines') {
         const device = d.contractType === 'Device contract' && d.phoneBrand
-          ? `, and I'm particularly interested in a ${d.phoneBrand}`
-          : '';
-        msg = `Hi ${c.name}, I'm looking to get a new MTN line — a ${d.contractType || 'contract'}${device}. My monthly budget is ${d.budget || 'unspecified'}. Could you please assist me?`;
+          ? `, and I'm interested in a ${d.phoneBrand}` : '';
+        msg = `Hi ${c.name}, I'm looking to get a new MTN ${biz}line — a ${d.contractType || 'contract'}${device}. My monthly budget is ${d.budget || 'unspecified'}. Could you please assist me?`;
 
       } else if (cat === 'upgrades') {
-        msg = `Hi ${c.name}, I'd like to upgrade my MTN contract. My MTN number is ${d.mtnNumber || ''} and my ID number is ${d.idNumber || ''}. Could you please check my upgrade options?`;
+        msg = `Hi ${c.name}, I'd like to upgrade my MTN ${biz}contract. My MTN number is ${d.mtnNumber || ''}, best contact is ${d.contactNumber || ''}, and my email is ${d.email || ''}. Could you please check my upgrade options?`;
 
       } else if (cat === 'general') {
-        msg = `Hi ${c.name}, I need some assistance. ${d.issue || ''}`;
+        msg = `Hi ${c.name}, I have a ${biz}query: ${d.issue || ''}`;
 
       } else if (cat === 'fibre') {
-        msg = `Hi ${c.name}, I'm interested in MTN ${d.serviceType || 'home internet'} at ${d.address || 'my address'}. Could you please assist me?`;
+        const svc = isBiz ? `MTN ${d.serviceType} for my business` : `MTN ${d.serviceType}`;
+        msg = `Hi ${c.name}, I'm interested in ${svc || 'MTN internet'} at ${d.address || 'my address'}. Could you please assist me?`;
       }
 
       return encodeURIComponent(msg.trim());
     }
 
-    /* ─ Modal ───────────────────────────────────────────────────── */
+    /* ─ Consultant modal ────────────────────────────────────────── */
     function _showModal() {
       const list = document.getElementById('consultantList');
       list.innerHTML = '';
       setProgress(4);
 
       CONSULTANTS.forEach(c => {
-        const waMsg = buildWAMsg(c);
-        const waUrl = `https://wa.me/${c.phone}?text=${waMsg}`;
+        const waUrl = `https://wa.me/${c.phone}?text=${buildWAMsg(c)}`;
         const card  = document.createElement('div');
         card.className = 'consultant-card';
         card.innerHTML = `
-          <div class="avatar">${c.initials}</div>
+          <div class="avatar">${escHtml(c.initials)}</div>
           <div class="consultant-info">
             <div class="c-name">${escHtml(c.name)}</div>
           </div>
@@ -1059,35 +1184,149 @@
         list.appendChild(card);
       });
 
-      document.getElementById('modal').classList.add('open');
+      document.getElementById('consultantModal').classList.add('open');
       document.body.style.overflow = 'hidden';
     }
 
     function _hideModal() {
-      document.getElementById('modal').classList.remove('open');
+      document.getElementById('consultantModal').classList.remove('open');
       document.body.style.overflow = '';
       setProgress(3);
     }
 
-    function openModal() {
-      history.pushState({ step: 4 }, '');
-      _showModal();
+    function openModal()  { history.pushState({ step: 4 }, ''); _showModal(); }
+    function closeModal() { history.back(); }
+
+    function onConsultantOverlayClick(e) {
+      if (e.target === document.getElementById('consultantModal')) history.back();
     }
 
-    function closeModal() {
-      /* always navigate via history so the back-button stack stays clean */
-      history.back();
+    /* ─ Review modal ────────────────────────────────────────────── */
+    function _showReview() {
+      reviewRating = 0;
+      document.querySelectorAll('.star').forEach(s => s.className = 'star');
+      document.getElementById('reviewName').value  = '';
+      document.getElementById('reviewText').value  = '';
+      document.getElementById('reviewCounter').textContent = '0 / 300';
+      document.getElementById('reviewCounter').className   = 'char-counter';
+      ['rating','reviewName','reviewText'].forEach(id => {
+        const em = document.getElementById('e-' + id);
+        if (em) em.classList.remove('visible');
+      });
+      ['reviewName','reviewText'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.classList.remove('has-error');
+      });
+      document.getElementById('reviewModal').classList.add('open');
+      document.body.style.overflow = 'hidden';
     }
 
-    function onOverlayClick(e) {
-      if (e.target === document.getElementById('modal')) history.back();
+    function _hideReview() {
+      document.getElementById('reviewModal').classList.remove('open');
+      document.body.style.overflow = '';
     }
 
-    document.addEventListener('keydown', e => {
-      if (e.key === 'Escape' && document.getElementById('modal').classList.contains('open')) {
-        history.back();
+    function openReview()  { history.pushState({ step: 'review' }, ''); _showReview(); }
+    function closeReview() { history.back(); }
+
+    function onReviewOverlayClick(e) {
+      if (e.target === document.getElementById('reviewModal')) history.back();
+    }
+
+    /* star interactions */
+    document.getElementById('starRow').addEventListener('click', e => {
+      const s = e.target.closest('.star');
+      if (!s) return;
+      reviewRating = +s.dataset.val;
+      updateStars(reviewRating);
+      document.getElementById('e-rating').classList.remove('visible');
+    });
+
+    document.getElementById('starRow').addEventListener('mouseover', e => {
+      const s = e.target.closest('.star');
+      if (!s) return;
+      const hov = +s.dataset.val;
+      document.querySelectorAll('.star').forEach((st, i) => {
+        st.classList.toggle('hover', i < hov);
+        st.classList.toggle('lit',   i < reviewRating && i >= hov);
+      });
+      document.querySelectorAll('.star').forEach((st, i) => {
+        if (i < hov) { st.classList.add('hover'); st.classList.remove('lit'); }
+        else if (i < reviewRating) { st.classList.add('lit'); st.classList.remove('hover'); }
+        else { st.classList.remove('lit','hover'); }
+      });
+    });
+
+    document.getElementById('starRow').addEventListener('mouseleave', () => {
+      updateStars(reviewRating);
+    });
+
+    function updateStars(n) {
+      document.querySelectorAll('.star').forEach((s, i) => {
+        s.className = 'star' + (i < n ? ' lit' : '');
+      });
+    }
+
+    /* review char counter */
+    document.getElementById('reviewText').addEventListener('input', function () {
+      const len = this.value.length;
+      const ctr = document.getElementById('reviewCounter');
+      ctr.textContent = `${len} / 300`;
+      ctr.className   = 'char-counter' + (len >= 300 ? ' full' : len >= 240 ? ' warn' : '');
+    });
+
+    /* review name clear error */
+    document.getElementById('reviewName').addEventListener('input', function () {
+      if (this.value.trim()) {
+        this.classList.remove('has-error');
+        document.getElementById('e-reviewName').classList.remove('visible');
       }
     });
+
+    function submitReview() {
+      let ok = true;
+
+      if (!reviewRating) {
+        document.getElementById('e-rating').classList.add('visible');
+        ok = false;
+      }
+
+      const nameEl = document.getElementById('reviewName');
+      if (!nameEl.value.trim()) {
+        nameEl.classList.add('has-error');
+        document.getElementById('e-reviewName').classList.add('visible');
+        ok = false;
+      }
+
+      const textEl = document.getElementById('reviewText');
+      if (!textEl.value.trim()) {
+        textEl.classList.add('has-error');
+        document.getElementById('e-reviewText').classList.add('visible');
+        ok = false;
+      }
+
+      if (!ok) return;
+
+      const name  = nameEl.value.trim();
+      const text  = textEl.value.trim();
+      const stars = '★'.repeat(reviewRating) + '☆'.repeat(5 - reviewRating);
+      const msg   = `${stars} Review from ${name}: "${text}" — MTN Century Boulevard`;
+      window.open(`https://wa.me/27832001798?text=${encodeURIComponent(msg)}`, '_blank', 'noopener,noreferrer');
+    }
+
+    /* ─ ESC key ─────────────────────────────────────────────────── */
+    document.addEventListener('keydown', e => {
+      if (e.key !== 'Escape') return;
+      if (document.getElementById('consultantModal').classList.contains('open')) history.back();
+      else if (document.getElementById('reviewModal').classList.contains('open')) history.back();
+    });
+
+    /* ─ Utilities ───────────────────────────────────────────────── */
+    function escHtml(str) {
+      return String(str)
+        .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+        .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
   </script>
 </body>
 </html>
