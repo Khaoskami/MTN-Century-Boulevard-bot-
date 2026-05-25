@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none';">
   <title>MTN | Get Help Today</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -611,6 +612,157 @@
 
     .btn-wa:hover { background: #1ea855; }
 
+    /* ─── Ticker ────────────────────────────────────────────────── */
+    .ticker-wrap {
+      background: #111;
+      border-bottom: 1px solid #2a2a2a;
+      overflow: hidden;
+      white-space: nowrap;
+      position: relative;
+      z-index: 2;
+      padding: 0;
+    }
+
+    .ticker-track {
+      display: inline-flex;
+      animation: tickerScroll 55s linear infinite;
+    }
+
+    .ticker-track:hover { animation-play-state: paused; }
+
+    .ticker-seg {
+      display: inline-block;
+      padding: 11px 0;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--yellow);
+      padding-right: 100px;
+      flex-shrink: 0;
+    }
+
+    .ticker-dot {
+      color: #555;
+      padding-right: 100px;
+      font-size: 11px;
+      padding-top: 11px;
+      padding-bottom: 11px;
+      display: inline-block;
+      flex-shrink: 0;
+    }
+
+    @keyframes tickerScroll {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ─── Deals button ───────────────────────────────────────────── */
+    .btn-deals-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      margin-top: 12px;
+      background: none;
+      border: 2px solid #4a4000;
+      border-radius: 10px;
+      padding: 14px;
+      color: var(--yellow);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      min-height: 52px;
+      transition: background 0.2s, border-color 0.2s;
+      letter-spacing: 0.3px;
+    }
+
+    .btn-deals-link:hover { background: #252500; border-color: var(--yellow); }
+
+    /* ─── Deals modal cards ──────────────────────────────────────── */
+    .deals-list { display: flex; flex-direction: column; gap: 12px; }
+
+    .deal-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px 16px;
+    }
+
+    .deal-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .deal-icon {
+      width: 46px;
+      height: 46px;
+      border-radius: 10px;
+      background: var(--yellow);
+      color: var(--dark);
+      font-size: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .deal-info { flex: 1; }
+
+    .deal-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 3px;
+    }
+
+    .deal-sub {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--muted);
+    }
+
+    .deal-actions { display: flex; gap: 8px; }
+
+    .btn-deal-view,
+    .btn-deal-dl {
+      flex: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      min-height: 48px;
+      border-radius: 8px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: background 0.2s, border-color 0.2s;
+    }
+
+    .btn-deal-view {
+      background: var(--yellow);
+      color: var(--dark);
+    }
+
+    .btn-deal-view:hover { background: #e6b800; }
+
+    .btn-deal-dl {
+      background: var(--surface);
+      color: var(--white);
+      border: 1px solid var(--border);
+    }
+
+    .btn-deal-dl:hover { border-color: #666; background: #333; }
+
     /* ─── Star rating ────────────────────────────────────────────── */
     .star-row {
       display: flex;
@@ -661,6 +813,21 @@
     </div>
   </header>
 
+  <!-- ═══ SECURITY TICKER ═══════════════════════════════════════════ -->
+  <div class="ticker-wrap" aria-label="Security notices">
+    <div class="ticker-track">
+      <!-- Two identical copies create a seamless loop -->
+      <span class="ticker-seg">⚠️ MTN will NEVER ask for your OTP — Never share your OTP, PIN or password with anyone, including MTN staff</span>
+      <span class="ticker-dot">◆</span>
+      <span class="ticker-seg">📋 For faster service, be as descriptive as possible in your query — include your MTN number, order number or any reference</span>
+      <span class="ticker-dot">◆</span>
+      <span class="ticker-seg">⚠️ MTN will NEVER ask for your OTP — Never share your OTP, PIN or password with anyone, including MTN staff</span>
+      <span class="ticker-dot">◆</span>
+      <span class="ticker-seg">📋 For faster service, be as descriptive as possible in your query — include your MTN number, order number or any reference</span>
+      <span class="ticker-dot">◆</span>
+    </div>
+  </div>
+
   <!-- ═══ MAIN ═════════════════════════════════════════════════════ -->
   <main class="main">
 
@@ -695,6 +862,7 @@
           <div class="tile-label">Business / SME</div>
         </div>
       </div>
+      <button class="btn-deals-link" onclick="openDeals()">🎁&nbsp; View Current Deals &amp; Promotions</button>
       <button class="btn-review-link" onclick="openReview()">★&nbsp; Leave a review</button>
     </div>
 
@@ -743,6 +911,66 @@
       <h2 class="modal-title">Choose Your Consultant</h2>
       <p class="modal-sub">All conversations happen on WhatsApp — choose who you'd like to speak with</p>
       <div class="consultant-list" id="consultantList"></div>
+    </div>
+  </div>
+
+  <!-- ═══ DEALS MODAL ═══════════════════════════════════════════════ -->
+  <div class="modal-overlay" id="dealsModal" onclick="onDealsOverlayClick(event)">
+    <div class="modal-panel" role="dialog" aria-modal="true" aria-label="Current Deals">
+      <button class="modal-close" onclick="closeDeals()" aria-label="Close">×</button>
+      <h2 class="modal-title">Current Deals</h2>
+      <p class="modal-sub">View or download the latest Yello Trader — May 2026</p>
+      <div class="deals-list">
+
+        <div class="deal-card">
+          <div class="deal-header">
+            <div class="deal-icon">👤</div>
+            <div class="deal-info">
+              <div class="deal-title">Personal Deals</div>
+              <div class="deal-sub">Consumer Yello Trader · May 2026</div>
+            </div>
+          </div>
+          <div class="deal-actions">
+            <a class="btn-deal-view"
+               href="personal-deals.pdf"
+               target="_blank"
+               rel="noopener noreferrer">
+              👁 View
+            </a>
+            <a class="btn-deal-dl"
+               href="personal-deals.pdf"
+               download="MTN-Personal-Deals-May-2026.pdf"
+               rel="noopener noreferrer">
+              ⬇ Download
+            </a>
+          </div>
+        </div>
+
+        <div class="deal-card">
+          <div class="deal-header">
+            <div class="deal-icon">🏢</div>
+            <div class="deal-info">
+              <div class="deal-title">Business Deals</div>
+              <div class="deal-sub">Business Yello Trader · May 2026</div>
+            </div>
+          </div>
+          <div class="deal-actions">
+            <a class="btn-deal-view"
+               href="business-deals.pdf"
+               target="_blank"
+               rel="noopener noreferrer">
+              👁 View
+            </a>
+            <a class="btn-deal-dl"
+               href="business-deals.pdf"
+               download="MTN-Business-Deals-May-2026.pdf"
+               rel="noopener noreferrer">
+              ⬇ Download
+            </a>
+          </div>
+        </div>
+
+      </div>
     </div>
   </div>
 
@@ -842,14 +1070,18 @@
     window.addEventListener('popstate', e => {
       const step = (e.state && e.state.step !== undefined) ? e.state.step : 'home';
       const consultantOpen = document.getElementById('consultantModal').classList.contains('open');
+      const dealsOpen      = document.getElementById('dealsModal').classList.contains('open');
       const reviewOpen     = document.getElementById('reviewModal').classList.contains('open');
 
       if (step === 4) {
         _showModal();
+      } else if (step === 'deals') {
+        _showDeals();
       } else if (step === 'review') {
         _showReview();
       } else {
         if (consultantOpen) _hideModal();
+        if (dealsOpen)      _hideDeals();
         if (reviewOpen)     _hideReview();
         _showStep(step);
       }
@@ -1201,6 +1433,24 @@
       if (e.target === document.getElementById('consultantModal')) history.back();
     }
 
+    /* ─ Deals modal ─────────────────────────────────────────────── */
+    function _showDeals() {
+      document.getElementById('dealsModal').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function _hideDeals() {
+      document.getElementById('dealsModal').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    function openDeals()  { history.pushState({ step: 'deals' }, ''); _showDeals(); }
+    function closeDeals() { history.back(); }
+
+    function onDealsOverlayClick(e) {
+      if (e.target === document.getElementById('dealsModal')) history.back();
+    }
+
     /* ─ Review modal ────────────────────────────────────────────── */
     function _showReview() {
       reviewRating = 0;
@@ -1318,7 +1568,8 @@
     document.addEventListener('keydown', e => {
       if (e.key !== 'Escape') return;
       if (document.getElementById('consultantModal').classList.contains('open')) history.back();
-      else if (document.getElementById('reviewModal').classList.contains('open')) history.back();
+      else if (document.getElementById('dealsModal').classList.contains('open'))      history.back();
+      else if (document.getElementById('reviewModal').classList.contains('open'))     history.back();
     });
 
     /* ─ Utilities ───────────────────────────────────────────────── */
