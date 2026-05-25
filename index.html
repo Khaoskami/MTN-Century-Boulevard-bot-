@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MTN | Get Help Today</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+  <style>
+    /* ─── Reset ─────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ─── Tokens ─────────────────────────────────────────────────── */
+    :root {
+      --yellow:   #FFCC00;
+      --dark:     #1A1A1A;
+      --panel:    #212121;
+      --surface:  #2a2a2a;
+      --border:   #363636;
+      --muted:    #888;
+      --white:    #FFFFFF;
+      --error:    #E53E3E;
+      --green:    #25D366;
+    }
+
+    /* ─── Base ───────────────────────────────────────────────────── */
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--dark);
+      color: var(--white);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ─── Noise texture for dark sections ────────────────────────── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.03;
+    }
+
+    /* ─── Hero ───────────────────────────────────────────────────── */
+    .hero {
+      background: var(--yellow);
+      padding: 20px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    /* noise overlay on hero */
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.07;
+      pointer-events: none;
+    }
+
+    .hero-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 56px;
+      color: var(--dark);
+      letter-spacing: 3px;
+      line-height: 1;
+      position: relative;
+    }
+
+    .hero-right {
+      text-align: right;
+      position: relative;
+    }
+
+    .hero-tagline {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--dark);
+      max-width: 220px;
+      line-height: 1.35;
+      opacity: 0.85;
+    }
+
+    .hero-sub {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--dark);
+      opacity: 0.55;
+      margin-top: 3px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* ─── Main wrapper ───────────────────────────────────────────── */
+    .main {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 36px 20px 80px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ─── Progress bar ───────────────────────────────────────────── */
+    .progress-wrap {
+      margin-bottom: 36px;
+    }
+
+    .progress-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .progress-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--muted);
+    }
+
+    .progress-frac {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--muted);
+    }
+
+    .progress-track {
+      display: flex;
+      align-items: center;
+      gap: 0;
+    }
+
+    .step-pip {
+      width: 8px;
+      height: 8px;
+      border-radius: 4px;
+      background: var(--border);
+      transition: all 0.35s cubic-bezier(.4,0,.2,1);
+      flex-shrink: 0;
+    }
+
+    .step-pip.active {
+      width: 28px;
+      background: var(--yellow);
+    }
+
+    .step-pip.done {
+      background: var(--yellow);
+      opacity: 0.45;
+    }
+
+    .step-connector {
+      flex: 1;
+      height: 2px;
+      background: var(--border);
+      transition: background 0.35s;
+    }
+
+    .step-connector.done {
+      background: var(--yellow);
+      opacity: 0.35;
+    }
+
+    /* ─── Step panels ────────────────────────────────────────────── */
+    .step-panel {
+      display: none;
+      animation: fadeUp 0.25s ease;
+    }
+
+    .step-panel.active { display: block; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ─── Step headings ──────────────────────────────────────────── */
+    .step-heading {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 38px;
+      color: var(--yellow);
+      letter-spacing: 1.5px;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .step-sub {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 28px;
+    }
+
+    /* ─── Back button ────────────────────────────────────────────── */
+    .btn-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: none;
+      border: none;
+      color: var(--muted);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 8px 0;
+      margin-bottom: 18px;
+      min-height: 44px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      transition: color 0.2s;
+    }
+
+    .btn-back:hover { color: var(--yellow); }
+
+    .btn-back svg {
+      width: 14px;
+      height: 14px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    /* ─── Category tiles ─────────────────────────────────────────── */
+    .tile-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .category-tile {
+      background: var(--panel);
+      border: 2px solid var(--border);
+      border-radius: 14px;
+      padding: 28px 16px 24px;
+      cursor: pointer;
+      text-align: center;
+      transition: border-color 0.2s, background 0.2s, transform 0.15s;
+      min-height: 140px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      user-select: none;
+    }
+
+    .category-tile:hover {
+      border-color: var(--yellow);
+      background: #252500;
+      transform: translateY(-3px);
+    }
+
+    .category-tile:active { transform: translateY(0); }
+
+    .category-tile.selected {
+      border-color: var(--yellow);
+      background: #252500;
+    }
+
+    .tile-icon { font-size: 34px; line-height: 1; }
+
+    .tile-label {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1.25;
+    }
+
+    /* ─── Form elements ──────────────────────────────────────────── */
+    .form-group { margin-bottom: 22px; }
+
+    .form-label {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: #999;
+      margin-bottom: 9px;
+    }
+
+    .form-input,
+    .form-textarea {
+      width: 100%;
+      background: var(--surface);
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px;
+      padding: 14px 16px;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      min-height: 52px;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+
+    .form-textarea {
+      min-height: 128px;
+      resize: vertical;
+    }
+
+    .form-input::placeholder,
+    .form-textarea::placeholder { color: #555; }
+
+    .form-input:focus,
+    .form-textarea:focus {
+      border-color: var(--yellow);
+      box-shadow: 0 0 0 3px rgba(255,204,0,0.14);
+    }
+
+    .form-input.has-error,
+    .form-textarea.has-error { border-color: var(--error); }
+
+    .err-msg {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--error);
+      margin-top: 7px;
+      display: none;
+    }
+
+    .err-msg.visible { display: block; }
+
+    /* ─── Radio group ────────────────────────────────────────────── */
+    .radio-group {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .radio-opt {
+      flex: 1;
+      min-width: 130px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 13px 16px;
+      background: var(--surface);
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      cursor: pointer;
+      min-height: 52px;
+      transition: border-color 0.2s, background 0.2s;
+      user-select: none;
+    }
+
+    .radio-opt:hover { border-color: var(--yellow); }
+
+    .radio-opt.selected {
+      border-color: var(--yellow);
+      background: #252500;
+    }
+
+    .radio-opt input[type="radio"] {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--yellow);
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .radio-opt span {
+      font-size: 15px;
+      font-weight: 500;
+    }
+
+    /* ─── Conditional field ──────────────────────────────────────── */
+    .cond-field {
+      display: none;
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+    }
+
+    .cond-field.visible { display: block; }
+
+    /* ─── Primary button ─────────────────────────────────────────── */
+    .btn-primary {
+      width: 100%;
+      background: var(--yellow);
+      color: var(--dark);
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 20px;
+      letter-spacing: 1.5px;
+      border: none;
+      border-radius: 10px;
+      padding: 17px 24px;
+      cursor: pointer;
+      min-height: 56px;
+      margin-top: 10px;
+      transition: background 0.2s, transform 0.15s;
+      display: block;
+    }
+
+    .btn-primary:hover {
+      background: #e6b800;
+      transform: translateY(-2px);
+    }
+
+    .btn-primary:active { transform: translateY(0); }
+
+    .btn-primary.pulse {
+      animation: ctaPulse 2.2s cubic-bezier(.4,0,.6,1) infinite;
+    }
+
+    @keyframes ctaPulse {
+      0%, 100% { box-shadow: 0 0 0 0   rgba(255,204,0,0.55); }
+      55%       { box-shadow: 0 0 0 14px rgba(255,204,0,0); }
+    }
+
+    /* ─── Summary card ───────────────────────────────────────────── */
+    .summary-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+
+    .summary-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--yellow);
+      color: var(--dark);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 6px 14px;
+      border-radius: 20px;
+      margin-bottom: 20px;
+    }
+
+    .summary-row {
+      display: grid;
+      grid-template-columns: 130px 1fr;
+      gap: 8px 14px;
+      padding: 10px 0;
+      border-bottom: 1px solid #282828;
+      align-items: start;
+    }
+
+    .summary-row:last-child { border-bottom: none; padding-bottom: 0; }
+
+    .s-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: #666;
+      padding-top: 2px;
+    }
+
+    .s-value {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--white);
+      word-break: break-word;
+      line-height: 1.4;
+    }
+
+    /* ─── Modal overlay ──────────────────────────────────────────── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(8,8,8,0.92);
+      z-index: 900;
+      display: none;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 24px 16px;
+      overflow-y: auto;
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+    }
+
+    .modal-overlay.open { display: flex; }
+
+    .modal-panel {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      width: 100%;
+      max-width: 460px;
+      margin: auto;
+      padding: 32px 24px;
+      position: relative;
+      animation: modalIn 0.25s cubic-bezier(.4,0,.2,1);
+    }
+
+    @keyframes modalIn {
+      from { opacity: 0; transform: scale(0.95) translateY(10px); }
+      to   { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 36px;
+      height: 36px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      color: var(--muted);
+      font-size: 22px;
+      line-height: 1;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .modal-close:hover { background: #383838; color: var(--white); }
+
+    .modal-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 32px;
+      color: var(--yellow);
+      letter-spacing: 1.5px;
+      margin-bottom: 4px;
+    }
+
+    .modal-sub {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 24px;
+    }
+
+    /* ─── Consultant cards ───────────────────────────────────────── */
+    .consultant-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .consultant-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      transition: border-color 0.2s;
+    }
+
+    .consultant-card:hover { border-color: #555; }
+
+    .avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--yellow);
+      color: var(--dark);
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 16px;
+      letter-spacing: 1px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .consultant-info { flex: 1; min-width: 0; }
+
+    .c-name {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 5px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .c-badge {
+      display: inline-block;
+      background: #262600;
+      border: 1px solid #4a4700;
+      color: #ccaa00;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 3px 9px;
+      border-radius: 10px;
+    }
+
+    .btn-wa {
+      background: var(--green);
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 14px;
+      cursor: pointer;
+      min-height: 48px;
+      min-width: 90px;
+      white-space: nowrap;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      flex-shrink: 0;
+      transition: background 0.2s;
+    }
+
+    .btn-wa:hover { background: #1ea855; }
+
+    /* ─── Responsive ─────────────────────────────────────────────── */
+    @media (max-width: 480px) {
+      .hero-logo  { font-size: 44px; }
+      .hero-tagline { font-size: 12px; max-width: 175px; }
+      .step-heading { font-size: 30px; }
+      .tile-grid { gap: 10px; }
+      .category-tile { padding: 22px 12px 18px; min-height: 120px; }
+      .tile-icon { font-size: 28px; }
+      .tile-label { font-size: 13px; }
+      .summary-row { grid-template-columns: 1fr; gap: 3px; }
+      .s-label { padding-top: 0; }
+      .modal-panel { padding: 24px 18px; }
+      .consultant-card { flex-wrap: wrap; }
+      .btn-wa { width: 100%; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══ HERO ═══════════════════════════════════════════════════════ -->
+  <header class="hero">
+    <div class="hero-logo">MTN</div>
+    <div class="hero-right">
+      <div class="hero-tagline">Y'ello! How can we help you today?</div>
+      <div class="hero-sub">Century Boulevard</div>
+    </div>
+  </header>
+
+  <!-- ═══ MAIN ════════════════════════════════════════════════════════ -->
+  <main class="main">
+
+    <!-- Progress indicator -->
+    <div class="progress-wrap">
+      <div class="progress-meta">
+        <span class="progress-label">Your journey</span>
+        <span class="progress-frac" id="progressFrac">Step 1 of 4</span>
+      </div>
+      <div class="progress-track" id="progressTrack">
+        <div class="step-pip active" id="pip-1"></div>
+        <div class="step-connector" id="con-1"></div>
+        <div class="step-pip" id="pip-2"></div>
+        <div class="step-connector" id="con-2"></div>
+        <div class="step-pip" id="pip-3"></div>
+        <div class="step-connector" id="con-3"></div>
+        <div class="step-pip" id="pip-4"></div>
+      </div>
+    </div>
+
+    <!-- ─── Step 1: Category Select ──────────────────────────────── -->
+    <div class="step-panel active" id="step-1">
+      <h1 class="step-heading">What brings you in?</h1>
+      <p class="step-sub">Select a category to get started</p>
+      <div class="tile-grid">
+        <div class="category-tile" data-cat="new-lines" onclick="selectCategory(this,'new-lines','📱 New Lines &amp; Contracts')">
+          <div class="tile-icon">📱</div>
+          <div class="tile-label">New Lines &amp; Contracts</div>
+        </div>
+        <div class="category-tile" data-cat="upgrades" onclick="selectCategory(this,'upgrades','🔄 Upgrades')">
+          <div class="tile-icon">🔄</div>
+          <div class="tile-label">Upgrades</div>
+        </div>
+        <div class="category-tile" data-cat="general" onclick="selectCategory(this,'general','❓ General Queries')">
+          <div class="tile-icon">❓</div>
+          <div class="tile-label">General Queries</div>
+        </div>
+        <div class="category-tile" data-cat="fibre" onclick="selectCategory(this,'fibre','🏠 Fibre &amp; Home LTE')">
+          <div class="tile-icon">🏠</div>
+          <div class="tile-label">Fibre &amp; Home LTE</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── Step 2: Guided Questions ─────────────────────────────── -->
+    <div class="step-panel" id="step-2">
+      <button class="btn-back" onclick="goTo(1)">
+        <svg viewBox="0 0 16 16"><polyline points="10 12 6 8 10 4"/></svg>
+        Back
+      </button>
+      <h1 class="step-heading" id="s2heading">Tell Us More</h1>
+      <p class="step-sub" id="s2sub">Help us understand what you need</p>
+      <div id="formContent"></div>
+      <button class="btn-primary" onclick="advance()">Continue →</button>
+    </div>
+
+    <!-- ─── Step 3: Summary Confirmation ─────────────────────────── -->
+    <div class="step-panel" id="step-3">
+      <button class="btn-back" onclick="goTo(2)">
+        <svg viewBox="0 0 16 16"><polyline points="10 12 6 8 10 4"/></svg>
+        Back
+      </button>
+      <h1 class="step-heading">Here's what you've told us</h1>
+      <p class="step-sub">Review your details before we connect you</p>
+      <div class="summary-card" id="summaryContent"></div>
+      <button class="btn-primary pulse" onclick="openModal()">Talk to a Consultant →</button>
+    </div>
+
+  </main><!-- /.main -->
+
+  <!-- ═══ MODAL: Consultant Selection ════════════════════════════════ -->
+  <div class="modal-overlay" id="modal" onclick="onOverlayClick(event)">
+    <div class="modal-panel" id="modalPanel" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <button class="modal-close" onclick="closeModal()" aria-label="Close">×</button>
+      <h2 class="modal-title" id="modalTitle">Choose Your Consultant</h2>
+      <p class="modal-sub">All conversations happen on WhatsApp — choose who you'd like to speak with</p>
+      <div class="consultant-list" id="consultantList"></div>
+    </div>
+  </div>
+
+  <!-- ═══ JAVASCRIPT ══════════════════════════════════════════════════ -->
+  <script>
+    /* ─ State ──────────────────────────────────────────────────── */
+    const st = { category: null, label: null, data: {} };
+
+    /* ─ Consultants ────────────────────────────────────────────── */
+    const CONSULTANTS = [
+      { name:'Thabo M.',  initials:'TM', phone:'27821000001', tags:['new-lines','upgrades'],      badge:'New Lines & Upgrades' },
+      { name:'Lerato K.', initials:'LK', phone:'27821000002', tags:['upgrades','general'],        badge:'Upgrades & Queries'   },
+      { name:'Sipho N.',  initials:'SN', phone:'27821000003', tags:['new-lines','fibre'],          badge:'New Lines & Fibre'    },
+      { name:'Ayanda D.', initials:'AD', phone:'27821000004', tags:['fibre','general'],            badge:'Fibre & Home LTE'     },
+      { name:'Priya S.',  initials:'PS', phone:'27821000005', tags:['general','new-lines','upgrades'],'badge':'General & New Lines' },
+    ];
+
+    /* ─ Progress ────────────────────────────────────────────────── */
+    function setProgress(n) {
+      document.getElementById('progressFrac').textContent = `Step ${n} of 4`;
+      for (let i = 1; i <= 4; i++) {
+        const pip = document.getElementById('pip-' + i);
+        pip.className = 'step-pip' + (i < n ? ' done' : i === n ? ' active' : '');
+      }
+      for (let i = 1; i <= 3; i++) {
+        const con = document.getElementById('con-' + i);
+        con.className = 'step-connector' + (i < n ? ' done' : '');
+      }
+    }
+
+    /* ─ Navigate ────────────────────────────────────────────────── */
+    function goTo(n) {
+      document.querySelectorAll('.step-panel').forEach(p => p.classList.remove('active'));
+      document.getElementById('step-' + n).classList.add('active');
+      setProgress(n);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    /* ─ Step 1: select category ─────────────────────────────────── */
+    function selectCategory(tile, cat, label) {
+      document.querySelectorAll('.category-tile').forEach(t => t.classList.remove('selected'));
+      tile.classList.add('selected');
+      st.category = cat;
+      st.label    = label;
+      st.data     = {};
+      setTimeout(() => { buildForm(cat); goTo(2); }, 160);
+    }
+
+    /* ─ Step 2: build form per category ─────────────────────────── */
+    function buildForm(cat) {
+      const wrap = document.getElementById('formContent');
+      const h    = document.getElementById('s2heading');
+      const sub  = document.getElementById('s2sub');
+
+      if (cat === 'new-lines') {
+        h.textContent   = 'New Lines & Contracts';
+        sub.textContent = 'Tell us what you\'re looking for';
+        wrap.innerHTML = `
+          <div class="form-group">
+            <label class="form-label">What type of contract?</label>
+            <div class="radio-group" id="rg-contractType">
+              <label class="radio-opt" onclick="pickRadio(this,'contractType','SIM-only')">
+                <input type="radio" name="contractType" value="SIM-only" tabindex="-1">
+                <span>SIM-only</span>
+              </label>
+              <label class="radio-opt" onclick="pickRadio(this,'contractType','Device contract')">
+                <input type="radio" name="contractType" value="Device contract" tabindex="-1">
+                <span>Device contract</span>
+              </label>
+            </div>
+            <div class="err-msg" id="e-contractType">Please select a contract type.</div>
+          </div>
+          <div class="cond-field" id="cond-phoneBrand">
+            <div class="form-group">
+              <label class="form-label" for="phoneBrand">Which phone brand interests you?</label>
+              <input class="form-input" type="text" id="phoneBrand" placeholder="e.g. Samsung, Apple, Huawei">
+              <div class="err-msg" id="e-phoneBrand">Please enter a phone brand.</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="budget">Monthly budget</label>
+            <input class="form-input" type="text" id="budget" placeholder="e.g. R500">
+            <div class="err-msg" id="e-budget">Please enter your monthly budget.</div>
+          </div>`;
+
+      } else if (cat === 'upgrades') {
+        h.textContent   = 'Upgrades';
+        sub.textContent = 'Let us check your upgrade options';
+        wrap.innerHTML = `
+          <div class="form-group">
+            <label class="form-label" for="mtnNumber">Your current MTN number</label>
+            <input class="form-input" type="tel" id="mtnNumber" placeholder="e.g. 0821234567">
+            <div class="err-msg" id="e-mtnNumber">Please enter your MTN number.</div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="idNumber">ID number <span style="font-weight:400;text-transform:none;letter-spacing:0">(for eligibility check)</span></label>
+            <input class="form-input" type="text" id="idNumber" inputmode="numeric" placeholder="13-digit South African ID">
+            <div class="err-msg" id="e-idNumber">Please enter your ID number.</div>
+          </div>`;
+
+      } else if (cat === 'general') {
+        h.textContent   = 'General Queries';
+        sub.textContent = 'Describe what you need help with';
+        wrap.innerHTML = `
+          <div class="form-group">
+            <label class="form-label" for="issue">Describe your issue</label>
+            <textarea class="form-textarea" id="issue" placeholder="Include your number or order number if relevant…"></textarea>
+            <div class="err-msg" id="e-issue">Please describe your issue.</div>
+          </div>`;
+
+      } else if (cat === 'fibre') {
+        h.textContent   = 'Fibre & Home LTE';
+        sub.textContent = 'Let\'s find the best home internet option for you';
+        wrap.innerHTML = `
+          <div class="form-group">
+            <label class="form-label" for="address">Full physical address</label>
+            <input class="form-input" type="text" id="address" placeholder="Street, Suburb, City">
+            <div class="err-msg" id="e-address">Please enter your full address.</div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Service type</label>
+            <div class="radio-group" id="rg-serviceType">
+              <label class="radio-opt" onclick="pickRadio(this,'serviceType','Uncapped Fibre')">
+                <input type="radio" name="serviceType" value="Uncapped Fibre" tabindex="-1">
+                <span>Uncapped Fibre</span>
+              </label>
+              <label class="radio-opt" onclick="pickRadio(this,'serviceType','Plug-and-Play Home LTE')">
+                <input type="radio" name="serviceType" value="Plug-and-Play Home LTE" tabindex="-1">
+                <span>Plug-and-Play LTE</span>
+              </label>
+            </div>
+            <div class="err-msg" id="e-serviceType">Please select a service type.</div>
+          </div>`;
+      }
+
+      /* clear errors on input */
+      wrap.querySelectorAll('.form-input, .form-textarea').forEach(el => {
+        el.addEventListener('input', () => clearFieldError(el.id));
+      });
+    }
+
+    /* ─ Radio selection ─────────────────────────────────────────── */
+    function pickRadio(lbl, field, value) {
+      const group = lbl.closest('.radio-group');
+      group.querySelectorAll('.radio-opt').forEach(o => o.classList.remove('selected'));
+      lbl.classList.add('selected');
+      lbl.querySelector('input').checked = true;
+      st.data[field] = value;
+
+      /* toggle conditional phone brand field */
+      if (field === 'contractType') {
+        const cond = document.getElementById('cond-phoneBrand');
+        if (cond) {
+          if (value === 'Device contract') {
+            cond.classList.add('visible');
+          } else {
+            cond.classList.remove('visible');
+            delete st.data.phoneBrand;
+            const inp = document.getElementById('phoneBrand');
+            if (inp) { inp.value = ''; inp.classList.remove('has-error'); }
+            clearFieldError('phoneBrand');
+          }
+        }
+      }
+      clearFieldError(field);   /* clear radio error once picked */
+    }
+
+    /* ─ Validation helpers ──────────────────────────────────────── */
+    function clearFieldError(id) {
+      const el = document.getElementById(id);
+      const em = document.getElementById('e-' + id);
+      if (el) el.classList.remove('has-error');
+      if (em) em.classList.remove('visible');
+    }
+
+    function fieldError(id) {
+      const el = document.getElementById(id);
+      const em = document.getElementById('e-' + id);
+      if (el) el.classList.add('has-error');
+      if (em) em.classList.add('visible');
+    }
+
+    function radioError(name) {
+      const em = document.getElementById('e-' + name);
+      if (em) em.classList.add('visible');
+    }
+
+    function reqText(id, key) {
+      const el = document.getElementById(id);
+      if (!el) return true;
+      const v = el.value.trim();
+      if (!v) { fieldError(id); return false; }
+      st.data[key || id] = v;
+      return true;
+    }
+
+    function reqRadio(name) {
+      const checked = document.querySelector(`input[name="${name}"]:checked`);
+      if (!checked) { radioError(name); return false; }
+      st.data[name] = checked.value;
+      return true;
+    }
+
+    /* ─ Step 2 → Step 3 ────────────────────────────────────────── */
+    function advance() {
+      const cat = st.category;
+      let ok = true;
+
+      if (cat === 'new-lines') {
+        ok = reqRadio('contractType') && ok;
+        if (st.data.contractType === 'Device contract') {
+          ok = reqText('phoneBrand') && ok;
+        }
+        ok = reqText('budget') && ok;
+
+      } else if (cat === 'upgrades') {
+        ok = reqText('mtnNumber') && ok;
+        ok = reqText('idNumber')  && ok;
+
+      } else if (cat === 'general') {
+        ok = reqText('issue') && ok;
+
+      } else if (cat === 'fibre') {
+        ok = reqText('address')      && ok;
+        ok = reqRadio('serviceType') && ok;
+      }
+
+      if (!ok) return;
+      buildSummary();
+      goTo(3);
+    }
+
+    /* ─ Step 3: build summary ───────────────────────────────────── */
+    function buildSummary() {
+      const cat  = st.category;
+      const d    = st.data;
+      const wrap = document.getElementById('summaryContent');
+
+      const row = (lbl, val) =>
+        val ? `<div class="summary-row"><div class="s-label">${lbl}</div><div class="s-value">${escHtml(val)}</div></div>` : '';
+
+      let html = `<div class="summary-badge">${st.label}</div>`;
+
+      if (cat === 'new-lines') {
+        html += row('Contract type', d.contractType);
+        if (d.contractType === 'Device contract') html += row('Phone brand', d.phoneBrand);
+        html += row('Monthly budget', d.budget);
+      } else if (cat === 'upgrades') {
+        html += row('MTN number', d.mtnNumber);
+        html += row('ID number', maskId(d.idNumber));
+      } else if (cat === 'general') {
+        html += row('Your query', d.issue);
+      } else if (cat === 'fibre') {
+        html += row('Address', d.address);
+        html += row('Service type', d.serviceType);
+      }
+
+      wrap.innerHTML = html;
+    }
+
+    /* ─ Utility ─────────────────────────────────────────────────── */
+    function escHtml(str) {
+      return String(str)
+        .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+        .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    function maskId(id) {
+      if (!id) return '';
+      return '●●●●●●●' + id.slice(-6);
+    }
+
+    /* ─ WhatsApp message builder ────────────────────────────────── */
+    function buildWAMsg(c) {
+      const cat = st.category;
+      const d   = st.data;
+      let msg   = '';
+
+      if (cat === 'new-lines') {
+        const device = d.contractType === 'Device contract' && d.phoneBrand
+          ? `, and I'm particularly interested in a ${d.phoneBrand}`
+          : '';
+        msg = `Hi ${c.name}, I'm looking to get a new MTN line — a ${d.contractType || 'contract'}${device}. My monthly budget is ${d.budget || 'unspecified'}. Could you please assist me?`;
+
+      } else if (cat === 'upgrades') {
+        msg = `Hi ${c.name}, I'd like to upgrade my MTN contract. My MTN number is ${d.mtnNumber || ''} and my ID number is ${d.idNumber || ''}. Could you please check my upgrade options?`;
+
+      } else if (cat === 'general') {
+        msg = `Hi ${c.name}, I need some assistance. ${d.issue || ''}`;
+
+      } else if (cat === 'fibre') {
+        msg = `Hi ${c.name}, I'm interested in MTN ${d.serviceType || 'home internet'} at ${d.address || 'my address'}. Could you please assist me?`;
+      }
+
+      return encodeURIComponent(msg.trim());
+    }
+
+    /* ─ Modal ───────────────────────────────────────────────────── */
+    function openModal() {
+      const list = document.getElementById('consultantList');
+      list.innerHTML = '';
+      setProgress(4);
+
+      /* Sort: relevant consultants first */
+      const sorted = [...CONSULTANTS].sort((a, b) => {
+        const ra = a.tags.includes(st.category) ? 0 : 1;
+        const rb = b.tags.includes(st.category) ? 0 : 1;
+        return ra - rb;
+      });
+
+      sorted.forEach(c => {
+        const waMsg = buildWAMsg(c);
+        const waUrl = `https://wa.me/${c.phone}?text=${waMsg}`;
+        const card  = document.createElement('div');
+        card.className = 'consultant-card';
+        card.innerHTML = `
+          <div class="avatar">${c.initials}</div>
+          <div class="consultant-info">
+            <div class="c-name">${escHtml(c.name)}</div>
+            <span class="c-badge">${escHtml(c.badge)}</span>
+          </div>
+          <a class="btn-wa" href="${waUrl}" target="_blank" rel="noopener noreferrer">
+            <span>💬</span> Chat
+          </a>`;
+        list.appendChild(card);
+      });
+
+      document.getElementById('modal').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      document.getElementById('modal').classList.remove('open');
+      document.body.style.overflow = '';
+      setProgress(3);
+    }
+
+    function onOverlayClick(e) {
+      if (e.target === document.getElementById('modal')) closeModal();
+    }
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeModal();
+    });
+  </script>
+</body>
+</html>
