@@ -1013,6 +1013,26 @@
 
   <!-- ═══ JAVASCRIPT ═════════════════════════════════════════════════ -->
   <script>
+    /* ─ Analytics ───────────────────────────────────────────────── */
+    function logEvent(extra) {
+      try {
+        fetch('/api/events', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            mode:          st.mode                || null,
+            category:      st.category            || null,
+            contract_type: st.data.contractType   || null,
+            phone_brand:   st.data.phoneBrand     || null,
+            service_type:  st.data.serviceType    || null,
+            reached_summary:   extra?.reached_summary   || false,
+            opened_consultant: extra?.opened_consultant || false,
+            consultant_name:   extra?.consultant_name   || null
+          })
+        }).catch(function() {});
+      } catch(e) {}
+    }
+
     /* ─ State ──────────────────────────────────────────────────── */
     const st = { mode: null, category: null, label: null, data: {} };
     let reviewRating = 0;
@@ -1329,6 +1349,7 @@
       if (!ok) return;
       buildSummary();
       goTo(3);
+      logEvent({ reached_summary: true });
     }
 
     /* ─ Summary ─────────────────────────────────────────────────── */
@@ -1406,6 +1427,9 @@
             <span>💬</span> Chat
           </a>`;
         list.appendChild(card);
+        card.querySelector('.btn-wa').addEventListener('click', function() {
+          logEvent({ reached_summary: true, opened_consultant: true, consultant_name: c.name });
+        });
       });
 
       document.getElementById('consultantModal').classList.add('open');

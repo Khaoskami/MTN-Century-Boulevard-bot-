@@ -1,0 +1,13 @@
+{
+  "name": "mtn-cb-bot",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "bun run src/index.ts",
+    "dev":   "bun --watch run src/index.ts"
+  },
+  "dependencies": {
+    "hono":    "^4.6.0",
+    "pg":      "^8.13.0",
+    "@types/pg": "^8.11.0"
+  }
+}
