@@ -11,6 +11,7 @@ import { initDB } from './db';
 import { securityHeaders, publicCSP } from './middleware/security';
 import { eventsRoute } from './routes/events';
 import { adminRoute } from './routes/admin';
+import { dealsRoute } from './routes/deals';
 
 const required = ['DATABASE_URL', 'SESSION_SECRET', 'ADMIN_USERNAME', 'ADMIN_PASSWORD'];
 for (const key of required) {
@@ -34,6 +35,7 @@ app.get('/', publicCSP(), async (c) => {
 // Block directory traversal
 app.get('/public/*', (c) => c.body(null, 404));
 
+app.route('/', dealsRoute);
 app.route('/api', eventsRoute);
 app.route('/admin', adminRoute);
 
